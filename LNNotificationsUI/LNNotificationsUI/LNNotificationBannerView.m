@@ -155,7 +155,7 @@ static const CGFloat LNNotificationRelativeLabelCollapse = 5.0 * 60.0;
 		
 		[_notificationContentView addSubview:_messageLabel];
 		
-		[_notificationContentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-7.5@1000-[_titleLabel]-(-1)-[_messageLabel]->=10-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_titleLabel, _messageLabel)]];
+		[_notificationContentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-10@1000-[_titleLabel]-(-1)-[_messageLabel]->=10-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_titleLabel, _messageLabel)]];
 		[_notificationContentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-15-[_appIcon]-11-[_messageLabel]->=15-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_appIcon, _messageLabel)]];
 		
 		_dateLabel = [UILabel new];
