@@ -15,7 +15,7 @@ static const NSTimeInterval LNNotificationAnimationDuration = 0.5;
 static const NSTimeInterval LNNotificationFullDuration = 5.0;
 static const NSTimeInterval LNNotificationCutOffDuration = 2.5;
 
-static const CGFloat LNNotificationViewHeight = 68.0;
+static const CGFloat LNNotificationViewHeight = 34.0;
 
 extern NSString* const LNNotificationWasTappedNotification;
 
@@ -91,11 +91,11 @@ extern NSString* const LNNotificationWasTappedNotification;
 		[_swipeView addGestureRecognizer:_tgr];
 		
 		[vc.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_swipeView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_swipeView)]];
-		[vc.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_swipeView(68)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_swipeView)]];
+		[vc.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_swipeView(34)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_swipeView)]];
 		
 		[self setRootViewController:vc];
 		
-		self.windowLevel = UIWindowLevelAlert + 2000;
+		self.windowLevel = UIWindowLevelAlert + 5000;
 	}
 	
 	return self;
