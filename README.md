@@ -7,7 +7,7 @@
 
 See a video [here](https://vimeo.com/105395794).
 
-```pod "LNNotificationsUI", :git => 'https://github.com/noughts/LNNotificationsUI'```
+```pod "LNNotificationsUI", :git => "https://github.com/noughts/LNNotificationsUI"```
 
 ## Features
 
