@@ -59,7 +59,6 @@
 	
 	LNNotification* notification = [LNNotification notificationWithMessage:@"Welcome to LNNotificationsUI!"];
 	notification.title = @"Hello World!";
-	notification.soundName = @"demo.aiff";
 	
 	[[LNNotificationCenter defaultCenter] presentNotification:notification forApplicationIdentifier:@"123"];
 }

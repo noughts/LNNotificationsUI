@@ -208,51 +208,6 @@ static const CGFloat LNNotificationRelativeLabelCollapse = 5.0 * 60.0;
 		[bgView.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_notificationContentView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_notificationContentView)]];
 		[bgView.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_notificationContentView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_notificationContentView)]];
 		
-		UIView* drawer = [UIView new];
-		drawer.backgroundColor = [UIColor whiteColor];
-		drawer.translatesAutoresizingMaskIntoConstraints = NO;
-		
-		UIView<_LNBackgroundViewCommon>* drawerBG;
-		
-		if([UIVisualEffectView class])
-		{
-			drawerBG = (id)[[UIVisualEffectView alloc] initWithEffect:[UIVibrancyEffect effectForBlurEffect:(id)bgView.effect]];
-		}
-		else
-		{
-			drawerBG = [[_LNFakeVibrancyView alloc] initWithFrame:CGRectZero];
-		}
-	
-		drawerBG.translatesAutoresizingMaskIntoConstraints = NO;
-		drawerBG.contentView.translatesAutoresizingMaskIntoConstraints = NO;
-		
-		[drawerBG.contentView addSubview:drawer];
-		[drawerBG.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[drawer(37)]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(drawer)]];
-		[drawerBG.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[drawer(5)]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(drawer)]];
-		
-		contV = drawerBG.contentView;
-
-		[drawerBG addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[contV]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(contV)]];
-		[drawerBG addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[contV]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(contV)]];
-
-		[bgView.contentView addSubview:drawerBG];
-		
-		[bgView.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[drawerBG]-4-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(drawerBG)]];
-		[bgView.contentView addConstraint:[NSLayoutConstraint constraintWithItem:drawerBG
-																	   attribute:NSLayoutAttributeCenterX
-																	   relatedBy:NSLayoutRelationEqual
-																		  toItem:bgView.contentView
-																	   attribute:NSLayoutAttributeCenterX
-																	  multiplier:1.f constant:0.f]];
-		
-		UIBezierPath* path = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, 37, 5) cornerRadius:3];
-		CAShapeLayer* layer = [CAShapeLayer layer];
-		layer.path = path.CGPath;
-		
-		drawer.layer.mask = layer;
-		
-		drawer.backgroundColor = style == LNNotificationBannerStyleDark ? [UIColor whiteColor] : [UIColor blackColor];
-		
 		_backgroundView = bgView;
 	}
 	
@@ -287,7 +242,7 @@ static const CGFloat LNNotificationRelativeLabelCollapse = 5.0 * 60.0;
 	
 	_appIcon.image = notification.icon;
 	_titleLabel.text = notification.title;
-	_messageLabel.text = notification.message;
+	_messageLabel.text = @"";
 	
 	if(notification.displaysWithRelativeDateFormatting && fabs([notification.date timeIntervalSinceNow]) <= LNNotificationRelativeLabelCollapse)
 	{
@@ -318,6 +273,7 @@ static const CGFloat LNNotificationRelativeLabelCollapse = 5.0 * 60.0;
 		
 		_dateLabel.text = [[formatter stringFromDate:notification.date] lowercaseString];
 	}
+	_dateLabel.text = @"";
 }
 
 @end
