@@ -13,7 +13,6 @@
 		391D31AA19F9C2270065E9D3 /* LNNotificationBannerWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 391D31A119F9C2270065E9D3 /* LNNotificationBannerWindow.m */; };
 		391D31AB19F9C2270065E9D3 /* LNNotificationCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 391D31A319F9C2270065E9D3 /* LNNotificationCenter.m */; };
 		391D31AC19F9C2270065E9D3 /* LNNotificationSettingsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 391D31A519F9C2270065E9D3 /* LNNotificationSettingsController.m */; };
-		391D31AE19F9C2360065E9D3 /* LNNotificationsUIAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 391D31AD19F9C2360065E9D3 /* LNNotificationsUIAssets.xcassets */; };
 		391D31B219F9C3690065E9D3 /* LNNotificationsAppSettingsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 391D31B119F9C3690065E9D3 /* LNNotificationsAppSettingsController.m */; };
 		39867B7E19E5E8D300664D3C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 39B66DBE19B9020500BED640 /* Main.storyboard */; };
 		39B66DB719B9020500BED640 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 39B66DB619B9020500BED640 /* main.m */; };
@@ -37,7 +36,6 @@
 		391D31A319F9C2270065E9D3 /* LNNotificationCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LNNotificationCenter.m; path = ../LNNotificationsUI/LNNotificationsUI/LNNotificationCenter.m; sourceTree = "<group>"; };
 		391D31A419F9C2270065E9D3 /* LNNotificationSettingsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LNNotificationSettingsController.h; path = ../LNNotificationsUI/LNNotificationsUI/LNNotificationSettingsController.h; sourceTree = "<group>"; };
 		391D31A519F9C2270065E9D3 /* LNNotificationSettingsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LNNotificationSettingsController.m; path = ../LNNotificationsUI/LNNotificationsUI/LNNotificationSettingsController.m; sourceTree = "<group>"; };
-		391D31AD19F9C2360065E9D3 /* LNNotificationsUIAssets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = LNNotificationsUIAssets.xcassets; path = ../LNNotificationsUI/LNNotificationsUIAssets.xcassets; sourceTree = "<group>"; };
 		391D31AF19F9C27C0065E9D3 /* LNNotificationsUI_iOS7.1.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = LNNotificationsUI_iOS7.1.h; path = ../LNNotificationsUI/LNNotificationsUI/LNNotificationsUI_iOS7.1.h; sourceTree = "<group>"; };
 		391D31B019F9C3690065E9D3 /* LNNotificationsAppSettingsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LNNotificationsAppSettingsController.h; path = ../LNNotificationsUI/LNNotificationsUI/LNNotificationsAppSettingsController.h; sourceTree = "<group>"; };
 		391D31B119F9C3690065E9D3 /* LNNotificationsAppSettingsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LNNotificationsAppSettingsController.m; path = ../LNNotificationsUI/LNNotificationsUI/LNNotificationsAppSettingsController.m; sourceTree = "<group>"; };
@@ -67,7 +65,6 @@
 		391D319819F9C2180065E9D3 /* LNNotificationsUI */ = {
 			isa = PBXGroup;
 			children = (
-				391D31AD19F9C2360065E9D3 /* LNNotificationsUIAssets.xcassets */,
 				391D31AF19F9C27C0065E9D3 /* LNNotificationsUI_iOS7.1.h */,
 				391D319919F9C2270065E9D3 /* LNNotification.h */,
 				391D319A19F9C2270065E9D3 /* LNNotification.m */,
@@ -86,6 +83,7 @@
 				391D31B119F9C3690065E9D3 /* LNNotificationsAppSettingsController.m */,
 			);
 			name = LNNotificationsUI;
+			path = ..;
 			sourceTree = "<group>";
 		};
 		39B66DA819B9020500BED640 = {
@@ -189,7 +187,6 @@
 			files = (
 				39B66DC219B9020500BED640 /* Images.xcassets in Resources */,
 				39D646E719E5E4C60069C197 /* demo.aiff in Resources */,
-				391D31AE19F9C2360065E9D3 /* LNNotificationsUIAssets.xcassets in Resources */,
 				39867B7E19E5E8D300664D3C /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

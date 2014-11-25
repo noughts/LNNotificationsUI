@@ -126,7 +126,7 @@ static const CGFloat LNNotificationRelativeLabelCollapse = 5.0 * 60.0;
 		_notificationContentView.translatesAutoresizingMaskIntoConstraints = NO;
 		
 		_appIcon = [UIImageView new];
-		_appIcon.contentMode = UIViewContentModeScaleAspectFit;
+		_appIcon.contentMode = UIViewContentModeScaleAspectFill;
 		_appIcon.layer.masksToBounds = YES;
 		_appIcon.layer.cornerRadius = 3.125;
 		_appIcon.layer.borderWidth = 1 / [UIScreen mainScreen].scale;

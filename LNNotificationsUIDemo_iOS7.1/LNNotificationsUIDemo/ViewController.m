@@ -19,27 +19,27 @@
 	LNNotification* notification = [LNNotification notificationWithMessage:@"Looks just like the native iOS 7 and iOS 8 banner notifications!"];
 	notification.title = @"First Notification";
 	notification.date = [[NSDate date] dateByAddingTimeInterval:-60 * 60 * 24];
-	notification.soundName = @"demo.aiff";
+//	notification.soundName = @"demo.aiff";
 	
 	[[LNNotificationCenter defaultCenter] presentNotification:notification forApplicationIdentifier:@"123"];
 	
 	notification = [LNNotification notificationWithMessage:@"You can customize most parts of the notification messages."];
 	notification.title = @"Another Notification";
 	notification.date = [[NSDate date] dateByAddingTimeInterval:-60 * 60 * 24 * 30];
-	notification.soundName = @"demo.aiff";
+//	notification.soundName = @"demo.aiff";
 	
 	[[LNNotificationCenter defaultCenter] presentNotification:notification forApplicationIdentifier:@"456"];
 	
 	notification = [LNNotification notificationWithMessage:@"You can swipe notifications up to dismiss them."];
 	notification.title = @"And Another";
 	notification.date = [[NSDate date] dateByAddingTimeInterval:-60 * 60 * 24 * 30];
-	notification.soundName = @"demo.aiff";
+//	notification.soundName = @"demo.aiff";
 	
 	[[LNNotificationCenter defaultCenter] presentNotification:notification forApplicationIdentifier:@"789"];
 	
 	notification = [LNNotification notificationWithMessage:@"Pretty cool, isn't it?"];
 	notification.title = @"Last One";
-	notification.soundName = @"demo.aiff";
+//	notification.soundName = @"demo.aiff";
 	
 	[[LNNotificationCenter defaultCenter] presentNotification:notification forApplicationIdentifier:@"123"];
 }
