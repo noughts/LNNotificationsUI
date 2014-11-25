@@ -118,7 +118,7 @@ NSString* const LNNotificationWasTappedNotification = @"LNNotificationWasTappedN
 	
 	if(icon == nil)
 	{
-		icon = [UIImage imageNamed:@"LNNotificationsUIDefaultAppIcon"];
+		icon = [LNNotificationCenter createEmptyImageWithcolor:[UIColor blackColor]];
 	}
 	
 	_applicationMapping[appIdentifier] = @{LNAppNameKey: name, LNAppIconNameKey: icon};
@@ -126,6 +126,17 @@ NSString* const LNNotificationWasTappedNotification = @"LNNotificationWasTappedN
 	{
 		[self _setSettings:defaultSettings enabled:YES forAppIdentifier:appIdentifier];
 	}
+}
+
++(UIImage*)createEmptyImageWithcolor:(UIColor*)color{
+	CGRect rect = CGRectMake(0, 0, 1, 1);
+	UIGraphicsBeginImageContext(rect.size);
+	CGContextRef contextRef = UIGraphicsGetCurrentContext();
+	CGContextSetFillColorWithColor(contextRef, [color CGColor]);
+	CGContextFillRect(contextRef, rect);
+	UIImage *img = UIGraphicsGetImageFromCurrentImageContext();
+	UIGraphicsEndImageContext();
+	return img;
 }
 
 - (void)clearPendingNotificationForApplictionIdentifier:(NSString*)appIdentifier;
