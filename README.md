@@ -2,10 +2,12 @@
 
 `LNNotificationsUI` is a framework for displaying notifications similar to Apple's iOS 7 and iOS 8 notifications. It is meant to complement the native look and feel, by providing a pixel-accurate (as much as possible) recreation of the notifications.
 
-<img src="./Screenshots/Presentation.png" width="320px"/> 
+<img src="./Screenshots/Presentation.png" width="320px"/>
 <img src="./Screenshots/LNNotificationsUI.gif" height="568px"/>
 
 See a video [here](https://vimeo.com/105395794).
+
+```pod "LNNotificationsUI", :git => 'https://github.com/noughts/LNNotificationsUI'```
 
 ## Features
 
@@ -50,7 +52,7 @@ Now the system is ready to post notifications. Create a notificaiton object, set
 
 ```objective-c
 LNNotification* notification = [LNNotification notificationWithMessage:@"You've Got Mail!"];
-	
+
 [[LNNotificationCenter defaultCenter] presentNotification:notification forApplicationIdentifier:@"mail_app_identifier"];
 ```
 
@@ -73,7 +75,7 @@ Use the `notification.object` to get the tapped `LNNotification` object.
 - (void)notificationWasTapped:(NSNotification*)notification
 {
 	LNNotification* tappedNotification = notification.object;
-	
+
 	// Handle tap here.
 }
 ```
