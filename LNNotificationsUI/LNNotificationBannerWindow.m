@@ -12,7 +12,7 @@
 #import "LNNotificationCenter.h"
 
 static const NSTimeInterval LNNotificationAnimationDuration = 0.5;
-static const NSTimeInterval LNNotificationFullDuration = 1.5;
+static const NSTimeInterval LNNotificationFullDuration = 2;
 static const NSTimeInterval LNNotificationCutOffDuration = 1;
 
 static const CGFloat LNNotificationViewHeight = 34.0;
@@ -223,8 +223,11 @@ static const CGFloat LNNotificationViewHeight = 34.0;
 	[self _dismissNotificationViewWithCompletionBlock:completionBlock force:NO];
 }
 
-- (void)_dismissNotificationViewWithCompletionBlock:(void (^)())completionBlock force:(BOOL)forced
-{
+- (void)_dismissNotificationViewWithCompletionBlock:(void (^)())completionBlock force:(BOOL)forced{
+	[self _dismissNotificationViewWithCompletionBlock:completionBlock force:forced animated:YES];
+}
+
+- (void)_dismissNotificationViewWithCompletionBlock:(void (^)())completionBlock force:(BOOL)forced animated:(BOOL)animated{
 	if(_notificationViewShown == NO)
 	{
 		return;
@@ -250,7 +253,12 @@ static const CGFloat LNNotificationViewHeight = 34.0;
 		_notificationViewShown = NO;
 	});
 	
-	[UIView animateWithDuration:LNNotificationAnimationDuration delay:delay usingSpringWithDamping:500 initialSpringVelocity:0 options:UIViewAnimationOptionCurveEaseInOut | UIViewAnimationOptionBeginFromCurrentState animations:^{
+	NSTimeInterval duration = 0;
+	if( animated ){
+		duration = LNNotificationAnimationDuration;
+	}
+	
+	[UIView animateWithDuration:duration delay:delay usingSpringWithDamping:500 initialSpringVelocity:0 options:UIViewAnimationOptionCurveEaseInOut | UIViewAnimationOptionBeginFromCurrentState animations:^{
 		_topConstraint.constant = -LNNotificationViewHeight;
 		[self layoutIfNeeded];
 	} completion:^(BOOL finished) {
@@ -291,7 +299,7 @@ static const CGFloat LNNotificationViewHeight = 34.0;
 
 - (void)_userTappedNotification
 {
-	[self _dismissNotificationViewWithCompletionBlock:_pendingCompletionHandler force:YES];
+	[self _dismissNotificationViewWithCompletionBlock:_pendingCompletionHandler force:YES animated:NO];
 	
 	if(_notificationView.currentNotification != nil && _notificationView.currentNotification.defaultAction.handler != nil)
 	{
