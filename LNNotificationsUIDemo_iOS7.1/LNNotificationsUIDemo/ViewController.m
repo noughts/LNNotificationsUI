@@ -34,7 +34,6 @@
 
 - (IBAction)queueMoreButtonTapped:(id)sender {
 	LNNotification* notification = [LNNotification notificationWithMessage:@"Looks just like the native iOS 7 and iOS 8 banner notifications!"];
-	notification.title = @"First Notification";
 	notification.date = [[NSDate date] dateByAddingTimeInterval:-60 * 60 * 24];
 	notification.defaultAction = [LNNotificationAction actionWithTitle:@"View" handler:^(LNNotificationAction *action) {
 		UIAlertView* alert = [[UIAlertView alloc] initWithTitle:notification.title message:@"Notification was tapped!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
