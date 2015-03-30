@@ -9,36 +9,27 @@
 #import "ViewController.h"
 #import "LNNotificationsUI_iOS7.1.h"
 
-@interface ViewController ()
-
-@end
 
 @implementation ViewController
 
 
 
-- (IBAction)changeStyleButtonTapped:(id)sender {
-	[LNNotificationCenter defaultCenter].notificationsBannerStyle = ![LNNotificationCenter defaultCenter].notificationsBannerStyle;
-}
 
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	
 	LNNotification* notification = [LNNotification notificationWithMessage:@"Hello World!"];
 	notification.icon = [UIImage imageNamed:@"cheetah1136.png"];
-	NSAssert( notification.icon, @"" );
 	notification.defaultAction = [LNNotificationAction actionWithTitle:@"hoge" handler:^(LNNotificationAction *action) {
 		UIAlertView* alert = [[UIAlertView alloc] initWithTitle:notification.title message:@"Notification was tapped!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
 		[alert show];
 	}];
+	
 	[[LNNotificationCenter defaultCenter] presentNotification:notification userInfo:@{@"hoge":@"fuga"}];
 }
 
 
 
-
-- (IBAction)unwindToThisViewController:(UIStoryboardSegue *)unwindSegue{
-}
 
 
 - (IBAction)queueMoreButtonTapped:(id)sender {
@@ -103,6 +94,14 @@
 	[[LNNotificationCenter defaultCenter] presentNotification:notification forApplicationIdentifier:@"123"];
 }
  */
+
+- (IBAction)changeStyleButtonTapped:(id)sender {
+	[LNNotificationCenter defaultCenter].notificationsBannerStyle = ![LNNotificationCenter defaultCenter].notificationsBannerStyle;
+}
+
+
+- (IBAction)unwindToThisViewController:(UIStoryboardSegue *)unwindSegue{
+}
 
 
 - (UIStatusBarStyle)preferredStatusBarStyle{
