@@ -17,16 +17,48 @@ static const NSTimeInterval LNNotificationCutOffDuration = 1;
 
 static const CGFloat LNNotificationViewHeight = 34.0;
 
-extern NSString* const LNNotificationWasTappedNotification;
-
 @interface LNNotification ()
 
 @property (nonatomic, copy) NSDictionary* userInfo;
 
 @end
 
+@interface LNNotificationBannerWindow ()
+
+@property (nonatomic) BOOL ignoresAddedConstraints;
+
+@end
+
+@interface _LNWindowSizedView : UIView @end
+@implementation _LNWindowSizedView
+
+- (void)didMoveToWindow
+{
+	if(self.window == nil)
+	{
+		return;
+	}
+	
+	self.translatesAutoresizingMaskIntoConstraints = NO;
+	
+	BOOL oldVal = [(LNNotificationBannerWindow*)self.window ignoresAddedConstraints];
+	[(LNNotificationBannerWindow*)self.window setIgnoresAddedConstraints:NO];
+	
+	[self.window addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[view]|" options:0 metrics:nil views:@{@"view": self}]];
+	[self.window addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[view]|" options:0 metrics:nil views:@{@"view": self}]];
+	
+	[(LNNotificationBannerWindow*)self.window setIgnoresAddedConstraints:oldVal];
+}
+
+@end
+
 @interface _LNStatusBarStylePreservingViewController : UIViewController @end
 @implementation _LNStatusBarStylePreservingViewController
+
+- (void)loadView
+{
+	self.view = [_LNWindowSizedView new];
+}
 
 - (UIStatusBarStyle)preferredStatusBarStyle
 {
@@ -261,11 +293,29 @@ extern NSString* const LNNotificationWasTappedNotification;
 {
 	[self _dismissNotificationViewWithCompletionBlock:_pendingCompletionHandler force:YES];
 	
-	if(_notificationView.currentNotification != nil)
+	if(_notificationView.currentNotification != nil && _notificationView.currentNotification.defaultAction.handler != nil)
 	{
-		[[NSNotificationCenter defaultCenter] postNotificationName:LNNotificationWasTappedNotification object:_notificationView.currentNotification userInfo:_notificationView.currentNotification.userInfo];
+		_notificationView.currentNotification.defaultAction.handler(_notificationView.currentNotification.defaultAction);
 	}
 }
 
+- (void)setHidden:(BOOL)hidden
+{
+	self.ignoresAddedConstraints = YES;
+	
+	[super setHidden:hidden];
+	
+	self.ignoresAddedConstraints = NO;
+}
+
+- (void)addConstraint:(NSLayoutConstraint *)constraint
+{
+	if(self.ignoresAddedConstraints)
+	{
+		return;
+	}
+	
+	[super addConstraint:constraint];
+}
 
 @end

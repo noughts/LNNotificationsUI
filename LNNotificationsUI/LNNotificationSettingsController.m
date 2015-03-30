@@ -53,15 +53,7 @@
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder
 {
-	self = [super initWithCoder:aDecoder];
-	
-	self.tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];;
-	self.tableView.delegate = self;
-	self.tableView.dataSource = self;
-	
-	[self _commonInit];
-	
-	return self;
+	return [self init];
 }
 
 - (void)_commonInit
@@ -135,6 +127,45 @@
 	}
 }
 
+- (NSString*)_settingsDescriptionForApp:(NSDictionary*)app
+{
+	if([app[LNNotificationsDisabledKey] boolValue] == YES)
+	{
+		return nil;
+	}
+	
+	NSMutableString* val = [NSMutableString new];
+	
+	if([app[LNAppSoundsKey] boolValue] == YES)
+	{
+		[val appendString:NSLocalizedString(@"Sounds", @"")];
+	}
+	
+	if([app[LNAppAlertStyleKey] unsignedIntegerValue] != LNNotificationAlertStyleNone)
+	{
+		if(val.length > 0)
+		{
+			[val appendString:@", "];
+		}
+		
+		if([app[LNAppAlertStyleKey] unsignedIntegerValue] == LNNotificationAlertStyleBanner)
+		{
+			[val appendString:NSLocalizedString(@"Banners", @"")];
+		}
+		else if([app[LNAppAlertStyleKey] unsignedIntegerValue] == LNNotificationAlertStyleAlert)
+		{
+			[val appendString:NSLocalizedString(@"Alerts", @"")];
+		}
+	}
+	
+	if(val.length == 0)
+	{
+		return nil;
+	}
+	
+	return val;
+}
+
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"appDetailCell" forIndexPath:indexPath];
@@ -151,14 +182,19 @@
 	}
 	
 	cell.textLabel.text = app[LNAppNameKey];
+	cell.detailTextLabel.text = [self _settingsDescriptionForApp:app];
 	
 	UIImage* image = app[LNAppIconNameKey];
 	
-	CGSize itemSize = CGSizeMake(30, 30);
-	UIGraphicsBeginImageContextWithOptions(itemSize, NO, UIScreen.mainScreen.scale);
-	[image drawInRect:CGRectMake(0.0, 0.0, itemSize.width, itemSize.height)];
-	cell.imageView.image = UIGraphicsGetImageFromCurrentImageContext();
-	UIGraphicsEndImageContext();
+	CGSize imageSize = CGSizeMake(30, 30);
+	if(!CGSizeEqualToSize(image.size, imageSize))
+	{
+		UIGraphicsBeginImageContextWithOptions(imageSize, NO, image.scale);
+		CGContextSetInterpolationQuality(UIGraphicsGetCurrentContext(), kCGInterpolationHigh);
+		[image drawInRect:CGRectMake(0, 0, imageSize.width, imageSize.height)];
+		cell.imageView.image = UIGraphicsGetImageFromCurrentImageContext();
+		UIGraphicsEndImageContext();
+	}
 	
 	cell.imageView.layer.masksToBounds = YES;
 	cell.imageView.layer.cornerRadius = 4.6875;

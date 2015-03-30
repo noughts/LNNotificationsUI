@@ -24,22 +24,16 @@
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	
-	// 初期設定
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationWasTapped:) name:LNNotificationWasTappedNotification object:nil];
-	[[LNNotificationCenter defaultCenter] registerApplicationWithIdentifier:@"123" name:@"Notifications Demp App 1" icon:nil defaultSettings:LNNotificationDefaultAppSettings];
-	
-	LNNotification* notification = [LNNotification notificationWithMessage:@""];
-	notification.title = @"Hello World!";
-	[[LNNotificationCenter defaultCenter] presentNotification:notification forApplicationIdentifier:@"123" userInfo:@{@"hoge":@"fuga!!!!"}];
+	LNNotification* notification = [LNNotification notificationWithMessage:@"Hello World!"];
+	notification.icon = [UIImage imageNamed:@"cheetah1136.png"];
+	NSAssert( notification.icon, @"" );
+	notification.defaultAction = [LNNotificationAction actionWithTitle:@"hoge" handler:^(LNNotificationAction *action) {
+		UIAlertView* alert = [[UIAlertView alloc] initWithTitle:notification.title message:@"Notification was tapped!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+		[alert show];
+	}];
+	[[LNNotificationCenter defaultCenter] presentNotification:notification userInfo:@{@"hoge":@"fuga"}];
 }
 
-
-- (void)notificationWasTapped:(NSNotification*)notification{
-	LNNotification* tappedNotification = notification.object;
-	
-	UIAlertView* alert = [[UIAlertView alloc] initWithTitle:tappedNotification.title message:@"Notification was tapped!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-	[alert show];
-}
 
 
 
@@ -51,32 +45,64 @@
 	LNNotification* notification = [LNNotification notificationWithMessage:@"Looks just like the native iOS 7 and iOS 8 banner notifications!"];
 	notification.title = @"First Notification";
 	notification.date = [[NSDate date] dateByAddingTimeInterval:-60 * 60 * 24];
-	//	notification.soundName = @"demo.aiff";
+	notification.defaultAction = [LNNotificationAction actionWithTitle:@"View" handler:^(LNNotificationAction *action) {
+		UIAlertView* alert = [[UIAlertView alloc] initWithTitle:notification.title message:@"Notification was tapped!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+		[alert show];
+	}];
 	
-	[[LNNotificationCenter defaultCenter] presentNotification:notification forApplicationIdentifier:@"123"];
 	
+	
+	[[LNNotificationCenter defaultCenter] presentNotification:notification forApplicationIdentifier:nil];
+	
+	/*
 	notification = [LNNotification notificationWithMessage:@"You can customize most parts of the notification messages."];
 	notification.title = @"Another Notification";
 	notification.date = [[NSDate date] dateByAddingTimeInterval:-60 * 60 * 24 * 30];
-	//	notification.soundName = @"demo.aiff";
+//	notification.soundName = @"demo.aiff";
+	notification.defaultAction = nil;
 	
 	[[LNNotificationCenter defaultCenter] presentNotification:notification forApplicationIdentifier:@"456"];
 	
 	notification = [LNNotification notificationWithMessage:@"You can swipe notifications up to dismiss them."];
 	notification.title = @"And Another";
 	notification.date = [[NSDate date] dateByAddingTimeInterval:-60 * 60 * 24 * 30];
-	//	notification.soundName = @"demo.aiff";
+//	notification.soundName = @"demo.aiff";
+	notification.defaultAction = [LNNotificationAction actionWithTitle:@"View" handler:^(LNNotificationAction *action) {
+		UIAlertView* alert = [[UIAlertView alloc] initWithTitle:notification.title message:@"Notification was tapped!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+		[alert show];
+	}];
 	
 	[[LNNotificationCenter defaultCenter] presentNotification:notification forApplicationIdentifier:@"789"];
 	
 	notification = [LNNotification notificationWithMessage:@"Pretty cool, isn't it?"];
 	notification.title = @"Last One";
-	//	notification.soundName = @"demo.aiff";
+//	notification.soundName = @"demo.aiff";
+	notification.defaultAction = nil;
 	
 	[[LNNotificationCenter defaultCenter] presentNotification:notification forApplicationIdentifier:@"123"];
+	 */
 }
 
 
+/*
+- (void)viewDidLoad {
+	[super viewDidLoad];
+	
+	[[LNNotificationCenter defaultCenter] registerApplicationWithIdentifier:@"123" name:@"Notifications Demp App 1" icon:[UIImage imageNamed:@"DemoApp1Icon"] defaultSettings:LNNotificationDefaultAppSettings];
+	[[LNNotificationCenter defaultCenter] registerApplicationWithIdentifier:@"456" name:@"Notifications Demp App 2" icon:[UIImage imageNamed:@"DemoApp2Icon"] defaultSettings:LNNotificationDefaultAppSettings];
+	[[LNNotificationCenter defaultCenter] registerApplicationWithIdentifier:@"789" name:@"Notifications Demp App 3" icon:[UIImage imageNamed:@"DemoApp3Icon"] defaultSettings:LNNotificationDefaultAppSettings];
+	
+	LNNotification* notification = [LNNotification notificationWithMessage:@"Welcome to LNNotificationsUI!"];
+	notification.title = @"Hello World!";
+	notification.soundName = @"demo.aiff";
+	notification.defaultAction = [LNNotificationAction actionWithTitle:@"View" handler:^(LNNotificationAction *action) {
+		UIAlertView* alert = [[UIAlertView alloc] initWithTitle:notification.title message:@"Notification was tapped!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+		[alert show];
+	}];
+	
+	[[LNNotificationCenter defaultCenter] presentNotification:notification forApplicationIdentifier:@"123"];
+}
+ */
 
 
 - (UIStatusBarStyle)preferredStatusBarStyle{

@@ -13,13 +13,41 @@
 
 #import <AVFoundation/AVFoundation.h>
 
-@interface LNNotificationAlertView : UIAlertView
+@interface LNNotificationAlertView : UIAlertView <UIAlertViewDelegate>
 
 @property (nonatomic, retain) LNNotification* alertBackingNotification;
 
 @end
 
-@implementation LNNotificationAlertView @end
+@implementation LNNotificationAlertView
+
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+	if(buttonIndex == alertView.cancelButtonIndex)
+	{
+		return;
+	}
+	
+	if(buttonIndex == alertView.cancelButtonIndex + 1 && self.alertBackingNotification.defaultAction.handler)
+	{
+		self.alertBackingNotification.defaultAction.handler(self.alertBackingNotification.defaultAction);
+	}
+	
+	if(buttonIndex > alertView.cancelButtonIndex + 1 && [self.alertBackingNotification.otherActions[buttonIndex - 2] handler] != nil)
+	{
+		LNNotificationAction* action = self.alertBackingNotification.otherActions[buttonIndex - 2];
+		action.handler(action);
+	}
+}
+
+- (void)show
+{
+	self.delegate = self;
+	
+	[super show];
+}
+
+@end
 
 @interface LNNotification ()
 
@@ -31,8 +59,6 @@
 static LNNotificationCenter* __ln_defaultNotificationCenter;
 
 static NSString *const _LNSettingsKey = @"LNNotificationSettingsKey";
-
-NSString* const LNNotificationWasTappedNotification = @"LNNotificationWasTappedNotification";;
 
 @interface LNNotificationCenter () <UIAlertViewDelegate, AVAudioPlayerDelegate> @end
 
@@ -49,6 +75,8 @@ NSString* const LNNotificationWasTappedNotification = @"LNNotificationWasTappedN
 	BOOL _currentlyAnimating;
 	
 	AVAudioPlayer* _currentAudioPlayer;
+	
+	id _orientationHandler;
 }
 
 + (instancetype)defaultCenter
@@ -70,14 +98,36 @@ NSString* const LNNotificationWasTappedNotification = @"LNNotificationWasTappedN
 		_applicationMapping = [NSMutableDictionary new];
 		_pendingNotifications = [NSMutableArray new];
 		
-		_notificationSettings = [[NSUserDefaults standardUserDefaults] valueForKey:_LNSettingsKey];
+		_notificationSettings = [[[NSUserDefaults standardUserDefaults] valueForKey:_LNSettingsKey] mutableCopy];
 		if(_notificationSettings == nil)
 		{
 			_notificationSettings = [NSMutableDictionary new];
 		}
+		
+		_orientationHandler = [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationWillChangeStatusBarOrientationNotification object:nil queue:NSOperationQueue.mainQueue usingBlock:^(NSNotification *note) {
+			
+			UIInterfaceOrientation newOrientation = [note.userInfo[UIApplicationStatusBarOrientationUserInfoKey] unsignedIntegerValue];
+			
+			if([UIDevice currentDevice].orientation == (UIDeviceOrientation)newOrientation)
+			{
+				return;
+			}
+		
+			//Fix Apple bug of rotations.
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+			[[UIDevice currentDevice] performSelector:@selector(setOrientation:) withObject:(__bridge id)((void*)[note.userInfo[UIApplicationStatusBarOrientationUserInfoKey] unsignedIntegerValue])];
+#pragma clang diagnostic pop
+		}];
 	}
 	
 	return self;
+}
+
+- (void)dealloc
+{
+	[[NSNotificationCenter defaultCenter] removeObserver:_orientationHandler];
+	_orientationHandler = nil;
 }
 
 - (LNNotificationBannerStyle)notificationsBannerStyle
@@ -149,6 +199,14 @@ NSString* const LNNotificationWasTappedNotification = @"LNNotificationWasTappedN
 	[_pendingNotifications removeAllObjects];
 }
 
+- (void)presentNotification:(LNNotification*)notification userInfo:(NSDictionary*)userInfo{
+	[self presentNotification:notification forApplicationIdentifier:nil userInfo:userInfo];
+}
+
+- (void)presentNotification:(LNNotification*)notification{
+	[self presentNotification:notification forApplicationIdentifier:nil userInfo:nil];
+}
+
 - (void)presentNotification:(LNNotification*)notification forApplicationIdentifier:(NSString*)appIdentifier
 {
 	[self presentNotification:notification forApplicationIdentifier:appIdentifier userInfo:nil];
@@ -156,7 +214,6 @@ NSString* const LNNotificationWasTappedNotification = @"LNNotificationWasTappedN
 
 - (void)presentNotification:(LNNotification*)notification forApplicationIdentifier:(NSString*)appIdentifier userInfo:(NSDictionary*)userInfo
 {
-	NSAssert(_applicationMapping[appIdentifier] != nil, @"Unrecognized app identifier: %@. The app must be registered with the notification center before attempting presentation of notifications for it.", appIdentifier);
 	NSParameterAssert(notification.message != nil);
 	
 	if([_notificationSettings[appIdentifier][LNNotificationsDisabledKey] boolValue])
@@ -174,13 +231,22 @@ NSString* const LNNotificationWasTappedNotification = @"LNNotificationWasTappedN
 		
 		pendingNotification.title = notification.title ? notification.title : _applicationMapping[appIdentifier][LNAppNameKey];
 		pendingNotification.icon = notification.icon ? notification.icon : _applicationMapping[appIdentifier][LNAppIconNameKey];
-		pendingNotification.alertAction = notification.alertAction ? notification.alertAction : NSLocalizedString(@"View", @"");
 		pendingNotification.appIdentifier = appIdentifier;
 		pendingNotification.userInfo = userInfo;
 		
 		if([_notificationSettings[appIdentifier][LNAppAlertStyleKey] unsignedIntegerValue] == LNNotificationAlertStyleAlert)
 		{
-			LNNotificationAlertView* alert = [[LNNotificationAlertView alloc] initWithTitle:pendingNotification.title message:pendingNotification.message delegate:self cancelButtonTitle:NSLocalizedString(@"Close", @"") otherButtonTitles:pendingNotification.alertAction, nil];
+			LNNotificationAlertView* alert = [[LNNotificationAlertView alloc] initWithTitle:pendingNotification.title message:pendingNotification.message delegate:self cancelButtonTitle:NSLocalizedString(@"Close", @"") otherButtonTitles:nil];
+			
+			if(pendingNotification.defaultAction)
+			{
+				[alert addButtonWithTitle:pendingNotification.defaultAction.title];
+			}
+			
+			[pendingNotification.otherActions enumerateObjectsUsingBlock:^(LNNotificationAction* alertAction, NSUInteger idx, BOOL *stop) {
+				[alert addButtonWithTitle:alertAction.title];
+			}];
+			
 			alert.alertBackingNotification = pendingNotification;
 			[alert show];
 			[self _handleSoundForAppId:appIdentifier fileName:notification.soundName];
@@ -223,6 +289,10 @@ NSString* const LNNotificationWasTappedNotification = @"LNNotificationWasTappedN
 		if(![_notificationWindow isNotificationViewShown])
 		{
 			_currentlyAnimating = NO;
+			
+			//Clean up notification window.
+			_notificationWindow.hidden = YES;
+			_notificationWindow = nil;
 			
 			[self _handleBannerCanChange];
 			
@@ -286,18 +356,6 @@ NSString* const LNNotificationWasTappedNotification = @"LNNotificationWasTappedN
 	_notificationSettings[appIdentifier] = [settings copy];
 	
 	[[NSUserDefaults standardUserDefaults] setObject:_notificationSettings forKey:_LNSettingsKey];
-}
-
-#pragma mark UIAlertViewDelegate
-
-- (void)alertView:(LNNotificationAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
-{
-	if(alertView.cancelButtonIndex == buttonIndex)
-	{
-		return;
-	}
-	
-	[[NSNotificationCenter defaultCenter] postNotificationName:LNNotificationWasTappedNotification object:alertView.alertBackingNotification userInfo:alertView.alertBackingNotification.userInfo];
 }
 
 #pragma mark AVAudioPlayerDelegate

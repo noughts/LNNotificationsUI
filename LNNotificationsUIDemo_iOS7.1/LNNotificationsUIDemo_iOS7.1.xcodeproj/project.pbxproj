@@ -20,6 +20,7 @@
 		39B66DBD19B9020500BED640 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39B66DBC19B9020500BED640 /* ViewController.m */; };
 		39B66DC219B9020500BED640 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 39B66DC119B9020500BED640 /* Images.xcassets */; };
 		39D646E719E5E4C60069C197 /* demo.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 39D646E619E5E4C60069C197 /* demo.aiff */; };
+		4DE8F8121AC90E2B00885BF8 /* cheetah1136.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DE8F8111AC90E2B00885BF8 /* cheetah1136.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,9 +47,10 @@
 		39B66DB819B9020500BED640 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		39B66DB919B9020500BED640 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		39B66DBB19B9020500BED640 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		39B66DBC19B9020500BED640 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		39B66DBC19B9020500BED640 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; wrapsLines = 0; };
 		39B66DC119B9020500BED640 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		39D646E619E5E4C60069C197 /* demo.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = demo.aiff; sourceTree = "<group>"; };
+		4DE8F8111AC90E2B00885BF8 /* cheetah1136.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cheetah1136.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +109,7 @@
 			isa = PBXGroup;
 			children = (
 				39B66DB819B9020500BED640 /* AppDelegate.h */,
+				4DE8F8111AC90E2B00885BF8 /* cheetah1136.png */,
 				39B66DB919B9020500BED640 /* AppDelegate.m */,
 				39B66DBB19B9020500BED640 /* ViewController.h */,
 				39B66DBC19B9020500BED640 /* ViewController.m */,
@@ -188,6 +191,7 @@
 				39B66DC219B9020500BED640 /* Images.xcassets in Resources */,
 				39D646E719E5E4C60069C197 /* demo.aiff in Resources */,
 				39867B7E19E5E8D300664D3C /* Main.storyboard in Resources */,
+				4DE8F8121AC90E2B00885BF8 /* cheetah1136.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

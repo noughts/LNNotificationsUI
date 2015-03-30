@@ -11,8 +11,6 @@
 
 @class LNNotification, LNNotificationAppSettings;
 
-extern NSString* const LNNotificationWasTappedNotification;
-
 typedef NS_ENUM(NSUInteger, LNNotificationBannerStyle) {
 	LNNotificationBannerStyleDark,
 	LNNotificationBannerStyleLight
@@ -26,6 +24,15 @@ typedef NS_ENUM(NSUInteger, LNNotificationBannerStyle) {
  The notifications banner style. Default is dark.
  */
 @property (nonatomic, assign) LNNotificationBannerStyle notificationsBannerStyle;
+
+
+
+
+- (void)presentNotification:(LNNotification*)notification;
+- (void)presentNotification:(LNNotification*)notification userInfo:(NSDictionary*)userInfo;
+
+
+
 
 /**
  Registers an application with the notification center. Name and icon will be used for notification without titles and icons.
