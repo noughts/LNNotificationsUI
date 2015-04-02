@@ -28,6 +28,8 @@ typedef NS_ENUM(NSUInteger, LNNotificationBannerStyle) {
 
 
 
+-(NSArray*)pendingNotifications;
+-(NSUInteger)pendintgNotificationsCount;
 - (void)presentNotification:(LNNotification*)notification;
 - (void)presentNotification:(LNNotification*)notification userInfo:(NSDictionary*)userInfo;
 

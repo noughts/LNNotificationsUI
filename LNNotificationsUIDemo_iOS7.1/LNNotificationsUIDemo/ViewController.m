@@ -33,6 +33,7 @@
 
 
 - (IBAction)queueMoreButtonTapped:(id)sender {
+	NSLog( @"pendintgNotificationsCount = %@", @([LNNotificationCenter defaultCenter].pendintgNotificationsCount) );
 	LNNotification* notification = [LNNotification notificationWithMessage:@"Looks just like the native iOS 7 and iOS 8 banner notifications!"];
 	notification.date = [[NSDate date] dateByAddingTimeInterval:-60 * 60 * 24];
 	notification.defaultAction = [LNNotificationAction actionWithTitle:@"View" handler:^(LNNotificationAction *action) {

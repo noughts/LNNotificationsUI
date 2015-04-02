@@ -130,6 +130,15 @@ static NSString *const _LNSettingsKey = @"LNNotificationSettingsKey";
 	_orientationHandler = nil;
 }
 
+
+-(NSArray*)pendingNotifications{
+	return [NSArray arrayWithArray:_pendingNotifications];
+}
+
+-(NSUInteger)pendintgNotificationsCount{
+	return _pendingNotifications.count;
+}
+
 - (LNNotificationBannerStyle)notificationsBannerStyle
 {
 	return _bannerStyle;
